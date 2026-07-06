@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרידמן מהנדסים ויועצים בע"מ | ניהול פרויקטים ובקרת לו"ז לתשתיות</title>
+<meta name="description" content="פרידמן מהנדסים ויועצים בניהולו של דוד פרידמן, פעילה משנת 2013. הכנה ובקרת לוחות זמנים, בקרה הנדסית ותקציבית לפרויקטי תשתיות מורכבים: מחלף יגור, כביש 65, כביש 77 ועוד.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10243B;
+    --paper:#ECEEE8;
+    --paper2:#DEE3DB;
+    --line:#B9C4C0;
+    --accent:#D9480F;
+    --accent2:#2F6F62;
+    --white:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Assistant',sans-serif;
+    line-height:1.6;
+  }
+  h1,h2,h3,.eyebrow,.dwg{font-family:'Rubik',sans-serif;}
+  .mono{font-family:'Space Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  /* Blueprint grid texture */
+  .grid-bg{
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:36px 36px;
+    background-position:center;
+  }
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(236,238,232,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-wrap{
+    max-width:1180px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:40px;height:40px;border:2px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Mono',monospace;font-weight:700;font-size:13px;
+    background:var(--ink);color:var(--paper);
+    flex-shrink:0;
+  }
+  .brand-name{font-weight:700;font-size:17px;letter-spacing:0.2px;}
+  .brand-name span{display:block;font-size:11px;font-weight:500;color:var(--accent2);font-family:'Assistant',sans-serif;letter-spacing:0.5px;}
+  nav ul{list-style:none;display:flex;gap:28px;}
+  nav a{font-weight:600;font-size:15px;position:relative;padding:4px 0;}
+  nav a:hover{color:var(--accent);}
+  .call-btn{
+    background:var(--accent);color:var(--white);padding:9px 18px;
+    font-weight:700;font-size:14px;border-radius:2px;white-space:nowrap;
+  }
+  .call-btn:hover{background:#b93b0a;}
+  .burger{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:var(--ink);}
+
+  @media (max-width:820px){
+    nav ul{display:none;}
+    .burger{display:block;}
+  }
+
+  /* Hero */
+  .hero{
+    position:relative;
+    padding:90px 24px 0;
+    overflow:hidden;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--accent2);
+    margin-bottom:22px;
+  }
+  .eyebrow::before{content:"";width:28px;height:2px;background:var(--accent2);display:inline-block;}
+  .hero h1{
+    font-size:clamp(34px,5.2vw,62px);
+    font-weight:800;line-height:1.08;letter-spacing:-0.5px;
+    max-width:920px;
+  }
+  .hero h1 em{color:var(--accent);font-style:normal;}
+  .hero p.lead{
+    max-width:640px;font-size:19px;margin-top:22px;color:#2b3f52;font-weight:500;
+  }
+  .hero-ctas{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 26px;font-weight:700;font-size:15px;border-radius:2px;
+    border:2px solid var(--ink);transition:all .15s ease;
+  }
+  .btn-primary{background:var(--ink);color:var(--paper);}
+  .btn-primary:hover{background:transparent;color:var(--ink);}
+  .btn-ghost{background:transparent;color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+
+  /* Gantt signature element */
+  .gantt{
+    margin:56px 0 0; max-width:1180px; margin-inline:auto;
+    border:1px solid var(--line); background:var(--white);
+    padding:26px 28px 30px;
+  }
+  .gantt-title{
+    font-size:12px;font-weight:700;letter-spacing:1.2px;color:#5b6b63;
+    display:flex;justify-content:space-between;margin-bottom:18px;
+  }
+  .gantt-row{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+  .gantt-row:last-child{margin-bottom:0;}
+  .gantt-label{width:150px;flex-shrink:0;font-size:14px;font-weight:600;}
+  .gantt-track{flex:1;height:22px;background:var(--paper2);position:relative;border-radius:1px;}
+  .gantt-bar{position:absolute;top:0;bottom:0;border-radius:1px;}
+  .gantt-bar.b1{right:0;width:32%;background:var(--accent2);}
+  .gantt-bar.b2{right:26%;width:46%;background:var(--ink);}
+  .gantt-bar.b3{right:64%;width:30%;background:var(--accent);}
+  .gantt-days{width:70px;flex-shrink:0;font-family:'Space Mono',monospace;font-size:12px;text-align:left;color:#5b6b63;}
+
+  section{padding:96px 24px;position:relative;}
+  .wrap{max-width:1180px;margin:0 auto;}
+  .section-head{max-width:680px;margin-bottom:52px;}
+  .section-head .eyebrow{margin-bottom:16px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,38px);font-weight:800;line-height:1.2;}
+
+  /* About */
+  #about{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:start;}
+  .about-grid p{margin-bottom:16px;font-size:16.5px;}
+  .stat-block{display:grid;grid-template-columns:1fr 1fr;gap:2px;border:1px solid var(--line);background:var(--line);}
+  .stat{background:var(--white);padding:26px 22px;}
+  .stat .num{font-family:'Space Mono',monospace;font-size:30px;font-weight:700;color:var(--accent);}
+  .stat .lbl{font-size:13px;font-weight:600;margin-top:6px;color:#3d4f45;}
+
+  @media(max-width:900px){.about-grid{grid-template-columns:1fr;gap:36px;}}
+
+  /* Services */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .service-card{background:var(--paper);padding:34px 28px;}
+  .service-card .dwg-num{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent2);font-weight:700;margin-bottom:14px;}
+  .service-card h3{font-size:19px;font-weight:700;margin-bottom:10px;}
+  .service-card p{font-size:14.5px;color:#3d4f45;}
+  @media(max-width:820px){.services-grid{grid-template-columns:1fr;}}
+
+  /* Flagship projects */
+  #projects{background:var(--ink);color:var(--paper);}
+  #projects .section-head h2{color:var(--paper);}
+  #projects .eyebrow{color:#7fd8c2;}
+  .proj-list{display:flex;flex-direction:column;}
+  .proj{
+    display:grid;grid-template-columns:120px 1fr 200px;gap:28px;
+    padding:34px 0;border-top:1px solid rgba(236,238,232,0.18);align-items:start;
+  }
+  .proj:last-child{border-bottom:1px solid rgba(236,238,232,0.18);}
+  .proj-id{font-family:'Space Mono',monospace;color:var(--accent);font-weight:700;font-size:15px;}
+  .proj h3{font-size:21px;font-weight:700;margin-bottom:10px;}
+  .proj p{font-size:14.5px;color:#c7d0cb;max-width:560px;}
+  .proj .budget{text-align:left;}
+  .proj .budget .amount{font-family:'Space Mono',monospace;font-size:24px;font-weight:700;color:#7fd8c2;}
+  .proj .budget .amount-lbl{font-size:12px;color:#95a29c;margin-top:4px;}
+  @media(max-width:760px){
+    .proj{grid-template-columns:1fr;gap:10px;}
+    .proj .budget{text-align:right;}
+  }
+
+  /* Schedule projects list */
+  #schedule-list{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .track-table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  .track-table th{
+    text-align:right;padding:12px 14px;font-size:12px;letter-spacing:0.6px;
+    color:#5b6b63;border-bottom:2px solid var(--ink);font-weight:700;
+  }
+  .track-table td{padding:14px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .track-table tr:hover td{background:var(--paper);}
+  .track-table td.client{color:#3d4f45;font-size:13.5px;}
+
+  /* Budget/engineering control */
+  #budget{background:var(--paper2);}
+  .tags{display:flex;flex-wrap:wrap;gap:10px;}
+  .tag{
+    background:var(--white);border:1px solid var(--line);
+    padding:10px 18px;font-size:14px;font-weight:600;border-radius:2px;
+  }
+
+  /* Clients */
+  #clients .section-head{margin-bottom:36px;}
+  .client-strip{
+    display:flex;flex-wrap:wrap;gap:14px;
+  }
+  .client-pill{
+    background:var(--white);border:1px solid var(--line);padding:14px 22px;
+    font-size:14px;font-weight:600;color:#3d4f45;
+  }
+
+  /* Contact */
+  #contact{background:var(--ink);color:var(--paper);}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  #contact .section-head h2{color:var(--paper);}
+  #contact .eyebrow{color:#7fd8c2;}
+  .contact-info a.line{
+    display:flex;align-items:center;gap:12px;font-size:17px;font-weight:600;
+    padding:14px 0;border-bottom:1px solid rgba(236,238,232,0.18);
+  }
+  .contact-info a.line:hover{color:var(--accent);}
+  .social-row{display:flex;gap:14px;margin-top:24px;}
+  .social-row a{
+    width:42px;height:42px;border:1px solid rgba(236,238,232,0.3);
+    display:flex;align-items:center;justify-content:center;border-radius:2px;
+    font-size:13px;font-weight:700;
+  }
+  .social-row a:hover{background:var(--accent);border-color:var(--accent);}
+
+  form{display:flex;flex-direction:column;gap:14px;}
+  form input, form textarea{
+    background:rgba(236,238,232,0.06);border:1px solid rgba(236,238,232,0.3);
+    color:var(--paper);padding:14px 16px;font-family:inherit;font-size:15px;border-radius:2px;
+  }
+  form input::placeholder, form textarea::placeholder{color:#8ea099;}
+  form textarea{min-height:120px;resize:vertical;}
+  form button{
+    background:var(--accent);color:var(--white);border:none;padding:15px;
+    font-weight:700;font-size:15px;cursor:pointer;border-radius:2px;letter-spacing:0.3px;
+  }
+  form button:hover{background:#b93b0a;}
+
+  @media(max-width:820px){.contact-grid{grid-template-columns:1fr;gap:40px;}}
+
+  footer{
+    padding:28px 24px;text-align:center;font-size:13px;color:#5b6b63;
+    background:var(--paper);border-top:1px solid var(--line);
+  }
+  footer a{font-weight:700;color:var(--accent2);}
+
+  .whatsapp-fab{
+    position:fixed;bottom:22px;left:22px;z-index:60;
+    background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:26px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.25);
+  }
+
+  ::selection{background:var(--accent);color:var(--white);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand">
+      <div class="brand-mark mono">D.F</div>
+      <div class="brand-name">פרידמן מהנדסים ויועצים
+        <span>DWG · EST. 2013</span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#about">אודות</a></li>
+        <li><a href="#services">שירותים</a></li>
+        <li><a href="#projects">פרויקטים</a></li>
+        <li><a href="#contact">צור קשר</a></li>
+      </ul>
+    </nav>
+    <a class="call-btn" href="tel:+972508777551">050-8777551</a>
+  </div>
+</header>
+
+<section class="hero grid-bg">
+  <div class="hero-inner">
+    <div class="eyebrow">בקרת לו"ז · בקרה הנדסית · בקרה תקציבית</div>
+    <h1>ניהול פרויקטי תשתיות מורכבים,<br>מהתכנון ועד <em>המסירה</em>.</h1>
+    <p class="lead">פרידמן מהנדסים ויועצים בניהולו של דוד פרידמן — מהנדס אזרחי בוגר הטכניון, עם ותק של מעל 27 שנה בהנדסה וניהול פרויקטי סלילה ובניה בהיקף של מאות מיליוני שקלים.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#contact">צרו קשר</a>
+      <a class="btn btn-ghost" href="tel:+972508777551">התקשרו עכשיו 050-8777551</a>
+    </div>
+
+    <div class="gantt">
+      <div class="gantt-title">
+        <span>לו"ז לדוגמה — שלבי ניהול פרויקט</span>
+        <span class="mono">DWG-00 / SCHEDULE</span>
+      </div>
+      <div class="gantt-row">
+        <div class="gantt-label">תכנון והכנת לו"ז</div>
+        <div class="gantt-track"><div class="gantt-bar b3"></div></div>
+        <div class="gantt-days">חודשים 1–3</div>
+      </div>
+      <div class="gantt-row">
+        <div class="gantt-label">ביצוע ובקרה</div>
+        <div class="gantt-track"><div class="gantt-bar b2"></div></div>
+        <div class="gantt-days">חודשים 3–9</div>
+      </div>
+      <div class="gantt-row">
+        <div class="gantt-label">מסירה ובקרה תקציבית</div>
+        <div class="gantt-track"><div class="gantt-bar b1"></div></div>
+        <div class="gantt-days">חודשים 9–11</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:28px;">
+        <div class="eyebrow">אודות</div>
+        <h2>27 שנות ניסיון בהנדסה אזרחית וניהול פרויקטים</h2>
+      </div>
+      <p>פרידמן מהנדסים ויועצים בניהולו של דוד פרידמן, פועלת משנת 2013.</p>
+      <p>דוד פרידמן, מהנדס אזרחי בוגר הטכניון בתואר ראשון בהנדסה אזרחית ולימודי נדל"ן וחוק התכנון והבניה, עם ותק במקצוע משנת 1991.</p>
+      <p>ניסיון עשיר בניהול פרויקטים בסלילה ובבניה, בהיקף של מאות מיליוני שקלים — לרבות שיקום כביש 65, כביש 77 ומחלף יגור.</p>
+      <p>החברה מבצעת הכנה ובקרת לו"ז קפדני בפרויקטים גדולים ומורכבים בתחום התשתיות והבניה, בקרה הנדסית לפני פרסום מכרזי ביצוע, ובקרה תקציבית על אומדני הפרויקט.</p>
+      <p style="margin-top:24px;font-weight:600;">שירות למנהלי פרויקטים, גופי ציבור, קיבוצים וקבלנים.</p>
+    </div>
+    <div class="stat-block">
+      <div class="stat"><div class="num">27+</div><div class="lbl">שנות ותק בהנדסה</div></div>
+      <div class="stat"><div class="num">2013</div><div class="lbl">שנת הקמת החברה</div></div>
+      <div class="stat"><div class="num">₪360M+</div><div class="lbl">היקף פרויקטים מוביל</div></div>
+      <div class="stat"><div class="num">מאות</div><div class="lbl">מיליוני ₪ בניהול סלילה</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">פעילות החברה</div>
+      <h2>ניהול ותכנון, בקרת לו"ז, בקרה תקציבית והנדסית</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="dwg-num mono">DWG-01</div>
+        <h3>ניהול ותכנון</h3>
+        <p>ליווי פרויקט משלב התכנון המפורט ועד למסירה, כולל תיאום השלמות תכנון ותשתיות.</p>
+      </div>
+      <div class="service-card">
+        <div class="dwg-num mono">DWG-02</div>
+        <h3>הכנת לוחות זמנים</h3>
+        <p>הכנה ובקרת לו"ז קפדני בפרויקטי תשתיות ובניה גדולים ומורכבים.</p>
+      </div>
+      <div class="service-card">
+        <div class="dwg-num mono">DWG-03</div>
+        <h3>בקרת לו"ז שוטפת</h3>
+        <p>מעקב ובקרה שוטפים אחר עמידה בלוחות הזמנים לאורך חיי הפרויקט.</p>
+      </div>
+      <div class="service-card">
+        <div class="dwg-num mono">DWG-04</div>
+        <h3>בקרה תקציבית</h3>
+        <p>בקרה תקציבית על אומדני הפרויקט, עבור רשות מקרקעי ישראל ומשרד התחבורה.</p>
+      </div>
+      <div class="service-card">
+        <div class="dwg-num mono">DWG-05</div>
+        <h3>בקרה הנדסית</h3>
+        <p>בקרה הנדסית לפני פרסום מכרזי ביצוע, ולאורך שלבי הביצוע בשטח.</p>
+      </div>
+      <div class="service-card">
+        <div class="dwg-num mono">DWG-06</div>
+        <h3>ניהול פרויקטים בסלילה</h3>
+        <p>ניהול פרויקטי סלילה בהיקף של מאות מיליוני שקלים עבור נתיבי ישראל.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">פרויקטים מובילים</div>
+      <h2>ניהול פרויקטי תשתיות בהיקף כספי משמעותי</h2>
+    </div>
+    <div class="proj-list">
+      <div class="proj">
+        <div class="proj-id mono">PRJ-01</div>
+        <div>
+          <h3>ניהול מחלף יגור</h3>
+          <p>מזמין: חברת נתיבי ישראל. כולל תיאום השלמות תכנון וביצוע תשתיות תאורה, ניקוז, השקיה, מעבירי מים, מעקות, סלילה, שילוט, רמזור והסדרי תנועה.</p>
+        </div>
+        <div class="budget"><div class="amount mono">₪161M</div><div class="amount-lbl">היקף כספי</div></div>
+      </div>
+      <div class="proj">
+        <div class="proj-id mono">PRJ-02</div>
+        <div>
+          <h3>שיקום כביש 65 — צומת מגידו עד צומת הסרגל</h3>
+          <p>מזמין: חברת נתיבי ישראל. כולל השלמות תכנון, עבודות ניקוז, תאורה, מים, מעבירי מים ועבודות בחרסיתות.</p>
+        </div>
+        <div class="budget"><div class="amount mono">₪70M</div><div class="amount-lbl">היקף ביצוע</div></div>
+      </div>
+      <div class="proj">
+        <div class="proj-id mono">PRJ-03</div>
+        <div>
+          <h3>הרחבת כביש 77 — בין צומת ישי לצומת המוביל</h3>
+          <p>מזמין: חברת נתיבי ישראל. ליווי משלב התכנון המפורט ועד למסירה, פרויקט תכנון וביצוע קבלני (D.B). כולל קירות תומכים, מעברים חקלאיים, מעבירי מים, תשתיות מים, תאורה, תקשורת מסחרית וייצוב בקונסולידציה.</p>
+        </div>
+        <div class="budget"><div class="amount mono">₪130M</div><div class="amount-lbl">היקף ביצוע</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule-list">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">הכנת לוחות זמנים</div>
+      <h2>פרויקטי בקרת לו"ז נבחרים</h2>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="track-table">
+      <thead>
+        <tr><th>פרויקט</th><th>מזמין / גורם</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>כביש 672, אליקים–יוקנעם — בקרת לו"ז</td><td class="client">נתיבי ישראל</td></tr>
+        <tr><td>דרך היין, כביש 652 — בקרת לו"ז</td><td class="client">נתיבי ישראל</td></tr>
+        <tr><td>כביש 55 — נבי אליאס — בקרת לו"ז</td><td class="client">נתיבי ישראל</td></tr>
+        <tr><td>מתחם הקישון</td><td class="client">אי שטרן עבור רכבת ישראל</td></tr>
+        <tr><td>משרדי הממשלה בנתניה</td><td class="client">אי שטרן עבור CPM</td></tr>
+        <tr><td>כביש 562, קדימה–צורן</td><td class="client">וקסמן גוברין שטרן עבור נתיבי ישראל</td></tr>
+        <tr><td>מחלף חן</td><td class="client">וקסמן גוברין שטרן עבור נתיבי ישראל</td></tr>
+        <tr><td>צפת, שכונת ארזים — 1,300 יח"ד</td><td class="client">אביב AMCG</td></tr>
+        <tr><td>טבריה מול ערבל — 366 יח"ד</td><td class="client">אביב AMCG עבור עדי הדר</td></tr>
+        <tr><td>מגדל העמק, שכונת יפה נוף</td><td class="client">עמק איילון עבור משרד השיכון</td></tr>
+        <tr><td>מגדל העמק, שכונת שריד</td><td class="client">עמק איילון עבור משרד השיכון</td></tr>
+        <tr><td>רכבת עכו–כרמיאל, קטע מנהרות גילון</td><td class="client">מוטי כהן עבור נתיבי ישראל</td></tr>
+        <tr><td>רכבת העמק, קטע ב2</td><td class="client">מוטי כהן עבור נתיבי ישראל</td></tr>
+        <tr><td>מסילת 431, קטעים 4.1 ו-4.2</td><td class="client">איתם הנדסה אזרחית וניהול פרויקטים (1996)</td></tr>
+        <tr><td>מסילה לנמל דרום (אשדוד)</td><td class="client">איתם הנדסה אזרחית וניהול פרויקטים (1996)</td></tr>
+        <tr><td>כביש 780 — הכנת לו"ז שלדי מפורט</td><td class="client">איתם הנדסה אזרחית וניהול פרויקטים (1996)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="budget">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">בקרה תקציבית והנדסית</div>
+      <h2>ביצוע בקרה תקציבית ותכנונית עבור רשות מקרקעי ישראל ומשרד התחבורה</h2>
+    </div>
+    <div class="tags">
+      <span class="tag">הרחבות ישובים</span>
+      <span class="tag">אזורי תעשייה</span>
+      <span class="tag">מטמנות</span>
+      <span class="tag">מנחתים</span>
+      <span class="tag">מתחמי תיירות</span>
+      <span class="tag">מתקנים הנדסיים</span>
+      <span class="tag">קיבוצים</span>
+      <span class="tag">הליכי שיוך בקיבוצים</span>
+      <span class="tag">פרויקטי תשתיות בערים</span>
+      <span class="tag">מנהרות</span>
+      <span class="tag">רכבת קלה</span>
+      <span class="tag">בקרה הנדסית ותקציבית</span>
+    </div>
+  </div>
+</section>
+
+<section id="clients">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">בין לקוחותינו</div>
+      <h2>עבודה שוטפת מול הגופים המובילים בתחום התשתיות</h2>
+    </div>
+    <div class="client-strip">
+      <div class="client-pill">נתיבי ישראל</div>
+      <div class="client-pill">רכבת ישראל</div>
+      <div class="client-pill">רשות מקרקעי ישראל</div>
+      <div class="client-pill">משרד התחבורה</div>
+      <div class="client-pill">משרד השיכון</div>
+      <div class="client-pill">איתם הנדסה אזרחית וניהול פרויקטים</div>
+      <div class="client-pill">אי שטרן</div>
+      <div class="client-pill">וקסמן גוברין שטרן</div>
+      <div class="client-pill">אביב AMCG</div>
+      <div class="client-pill">עמק איילון</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:24px;">
+        <div class="eyebrow">יצירת קשר</div>
+        <h2>נשמח לשמוע על הפרויקט הבא שלכם</h2>
+      </div>
+      <div class="contact-info">
+        <a class="line" href="tel:+972508777551">📞 050-8777551</a>
+        <a class="line" href="tel:+97248777310">☎️ 04-8777310</a>
+        <a class="line" href="mailto:davidozfri@gmail.com">✉️ davidozfri@gmail.com</a>
+      </div>
+      <div class="social-row">
+        <a href="https://www.facebook.com/fridman.eng/" target="_blank" rel="noopener">FB</a>
+        <a href="https://www.linkedin.com/in/%D7%93%D7%95%D7%93-%D7%A4%D7%A8%D7%99%D7%93%D7%9E%D7%9F-55823283/" target="_blank" rel="noopener">in</a>
+        <a href="https://api.whatsapp.com/send/?phone=972508777551" target="_blank" rel="noopener">WA</a>
+      </div>
+    </div>
+    <div>
+      <form action="mailto:davidozfri@gmail.com" method="get" enctype="text/plain">
+        <input type="text" name="name" placeholder="שם מלא" required>
+        <input type="tel" name="phone" placeholder="טלפון" required>
+        <input type="email" name="email" placeholder="אימייל">
+        <textarea name="message" placeholder="ספרו לנו על הפרויקט..." required></textarea>
+        <button type="submit">שליחה</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<a class="whatsapp-fab" href="https://api.whatsapp.com/send/?phone=972508777551" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<footer>
+  © כל הזכויות שמורות לדוד פרידמן — פרידמן מהנדסים ויועצים
+</footer>
+
+</body>
+</html>
